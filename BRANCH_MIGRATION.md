@@ -54,3 +54,12 @@ After completing these steps, verify:
 - `main` is the default branch in Settings → Branches
 - `master` branch no longer appears in the branch list
 - All code and history from `master` is present in `main`
+
+## Notes
+
+### Code Quality
+This migration preserves the exact state of the `master` branch without modifications. Some code quality issues were identified during review but were not fixed to maintain the integrity of the migration:
+- Duplicate macro definitions in `icm42688_reg.h`
+- Russian language comments in some source files
+
+These can be addressed in future PRs after the migration is complete.
