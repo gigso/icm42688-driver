@@ -1,0 +1,79 @@
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig ICM42688
+	bool "Invensense ICM42688 6-axis IMU"
+	default n
+	depends on SENSOR
+	depends on (I2C || SPI || I3C)
+	help
+	  Enable driver for Invensense ICM42688 6-axis IMU sensor
+	  (accelerometer + gyroscope).
+
+if ICM42688
+
+config ICM42688_TRIGGER
+	bool "Enable trigger support"
+	default y
+	depends on GPIO
+	select SENSOR_TRIGGER
+	help
+	  Enable data-ready and motion interrupt triggers.
+	  Requires INT1 GPIO pin connected to the host.
+
+config ICM42688_APEX
+	bool "Enable APEX motion detection algorithms"
+	default y
+	help
+	  Enable APEX features: tap detection, step counter, tilt detection,
+	  significant motion detection (SMD), and raise/wake detection (R2W).
+
+config ICM42688_APEX_PEDOMETER
+	bool "Enable pedometer (step counting)"
+	default y
+	depends on ICM42688_APEX
+	help
+	  Enable advanced pedometer with configurable stride length.
+
+config ICM42688_FIFO
+	bool "Enable FIFO support"
+	default y
+	help
+	  Enable FIFO packet capture with optional message queue.
+
+config ICM42688_FIFO_USE_MSGQ
+	bool "Use message queue for FIFO packets"
+	default y
+	depends on ICM42688_FIFO
+	help
+	  When enabled, FIFO packets are pushed to a message queue
+	  instead of polling.
+
+config ICM42688_FIFO_QUEUE_LEN
+	int "FIFO packet queue length"
+	default 16
+	range 4 128
+	depends on ICM42688_FIFO_USE_MSGQ
+	help
+	  Maximum number of FIFO packets buffered in kernel message queue.
+
+config ICM42688_FIFO_DRAIN_MAX_PKTS
+	int "Max FIFO packets to drain per interrupt"
+	default 16
+	range 1 64
+	depends on ICM42688_FIFO_USE_MSGQ
+	help
+	  Maximum FIFO packets processed per IRQ service.
+
+config ICM42688_NOTCH_FILTER
+	bool "Enable digital notch filter"
+	default y
+	help
+	  Enable programmable notch filter for gyroscope.
+
+config ICM42688_AAF_FILTER
+	bool "Enable anti-aliasing filter (AAF)"
+	default y
+	help
+	  Enable anti-aliasing filter for accelerometer and gyroscope.
+
+endif # ICM42688
