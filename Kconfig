@@ -1,0 +1,3 @@
+# Top-level Kconfig for ICM42688 Zephyr module
+
+rsource "drivers/sensor/icm42688/Kconfig"

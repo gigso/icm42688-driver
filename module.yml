@@ -1,0 +1,4 @@
+name: icm42688-driver
+build:
+  cmake: .
+  kconfig: Kconfig
